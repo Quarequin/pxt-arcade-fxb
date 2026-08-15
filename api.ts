@@ -113,10 +113,10 @@ namespace FxB {
     /**
      * Calculate with an Fx8 value and an integer.
      */
-    //% blockId=fxb_int block="$v=fxb_make $operation $a"
+    //% blockId=fxb_int block="$v=fxb_make $op $a"
     //% weight=6
-    export function int(v: Fx8, operation: ints, a: number): Fx8 {
-        switch (operation) {
+    export function int(v: Fx8, op: ints, a: number): Fx8 {
+        switch (op) {
             default: return null;
             case ints.add: return Fx.iadd(a, v)
             case ints.mul: return Fx.imul(v, a)
