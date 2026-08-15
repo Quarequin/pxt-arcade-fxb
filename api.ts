@@ -1,5 +1,5 @@
-//% block="Fx Block" icon="\uf1ec" color="#ebc21e"
-namespace FxB {
+//% block="Fx Block" icon="\uf1ec" color="#008888"
+namespace Fxb {
 
     export const enum tmps {
         //% block="0.0"
@@ -14,7 +14,7 @@ namespace FxB {
 
     export const enum fmts {
         //% block="integer"
-        integer = 0x0,
+        int = 0x0,
         //% block="float"
         float = 0x1,
     }
@@ -37,7 +37,7 @@ namespace FxB {
         max = 0x1,
     }
 
-    export const enum ints {
+    export const enum icalcs {
         //% block="integer +"
         add = 0x0,
         //% block="integer ×"
@@ -77,7 +77,7 @@ namespace FxB {
     //% weight=9
     export function fmt(value: Fx8, type: fmts): number {
         switch (type) {
-            case fmts.integer: default: return Fx.toInt(value);
+            case fmts.int: default: return Fx.toInt(value);
             case fmts.float: return Fx.toFloat(value);
         }
     }
@@ -115,14 +115,14 @@ namespace FxB {
      */
     //% blockId=fxb_int block="$v=fxb_make $op $a"
     //% weight=6
-    export function int(v: Fx8, op: ints, a: number): Fx8 {
+    export function icalc(v: Fx8, op: icalcs, a: number): Fx8 {
         switch (op) {
             default: return null;
-            case ints.add: return Fx.iadd(a, v)
-            case ints.mul: return Fx.imul(v, a)
-            case ints.div: return Fx.idiv(v, a)
-            case ints.lsh: return Fx.leftShift(v, a)
-            case ints.rsh: return Fx.rightShift(v, a)
+            case icalcs.add: return Fx.iadd(a, v);
+            case icalcs.mul: return Fx.imul(v, a);
+            case icalcs.div: return Fx.idiv(v, a);
+            case icalcs.lsh: return Fx.leftShift(v, a);
+            case icalcs.rsh: return Fx.rightShift(v, a);
         }
     }
 
@@ -134,10 +134,10 @@ namespace FxB {
     export function one(op: ones, v: Fx8): Fx8 {
         switch (op) {
             default: return null;
-            case ones.abs: return Fx.abs(v)
-            case ones.neg: return Fx.neg(v)
-            case ones.floor: return Fx.floor(v)
-            case ones.ceil: return Fx.ceil(v)
+            case ones.abs: return Fx.abs(v);
+            case ones.neg: return Fx.neg(v);
+            case ones.floor: return Fx.floor(v);
+            case ones.ceil: return Fx.ceil(v);
         }
     }
 
@@ -147,7 +147,7 @@ namespace FxB {
     //% blockId=fxb_cmp block="cmp $x=fxb_make $y=fxb_make"
     //% weight=4
     export function cmp(x: Fx8, y: Fx8): number {
-        return Fx.compare(x, y)
+        return Fx.compare(x, y);
     }
 
     /**

@@ -2,7 +2,7 @@
 
 An Fx8 fixed-point math wrapper for Microsoft MakeCode Arcade block code.
 
-`pxt-arcade-fxb` exposes the built-in Arcade `Fx8` type through a block-friendly namespace named `FxB`. It provides conversion, arithmetic, comparison, rounding, range, integer-operation, and template-value blocks without requiring users to work directly with the underlying fixed-point representation.
+`pxt-arcade-fxb` exposes the built-in Arcade `Fx8` type through a block-friendly namespace named `Fxb`. It provides conversion, arithmetic, comparison, rounding, range, integer-operation, and template-value blocks without requiring users to work directly with the underlying fixed-point representation.
 
 ## Add the extension to MakeCode Arcade
 
@@ -36,20 +36,20 @@ The extension keeps values as `Fx8` while calculations are performed. Convert an
 
 ## Block categories and operations
 
-All blocks are provided by the `FxB` namespace and appear under the **Fx Block** category.
+All blocks are provided by the `Fxb` namespace and appear under the **Fx Block** category.
 
 | Block or function | Description |
 | --- | --- |
-| `fx8 value` / `FxB.make(value)` | Convert a regular number into an `Fx8` value. |
-| `value to integer` / `FxB.fmt(value, integer)` | Convert an `Fx8` value to an integer. |
-| `value to float` / `FxB.fmt(value, float)` | Convert an `Fx8` value to a floating-point number. |
-| `x + y`, `x - y`, `x × y`, `x / y` / `FxB.calc` | Perform arithmetic with two `Fx8` values. |
-| `x min y`, `x max y` / `FxB.lim` | Return the smaller or larger of two `Fx8` values. |
-| `value integer + amount`, `value integer × amount`, `value integer / amount` / `FxB.int` | Perform an operation between an `Fx8` value and an integer. |
-| `value << amount`, `value >> amount` / `FxB.int` | Shift the internal fixed-point value left or right. |
-| `abs value`, `neg value`, `floor value`, `ceil value` / `FxB.one` | Apply a single operation to an `Fx8` value. |
-| `cmp x y` / `FxB.cmp` | Return the difference between two `Fx8` values for comparison. |
-| `0.0`, `0.5`, `1.0`, `2.0` / `FxB.tmp` | Insert a predefined Fx8 template value. |
+| `fx8 value` / `Fxb.make(value)` | Convert a regular number into an `Fx8` value. |
+| `value to integer` / `Fxb.fmt(value, integer)` | Convert an `Fx8` value to an integer. |
+| `value to float` / `Fxb.fmt(value, float)` | Convert an `Fx8` value to a floating-point number. |
+| `x + y`, `x - y`, `x × y`, `x / y` / `Fxb.calc` | Perform arithmetic with two `Fx8` values. |
+| `x min y`, `x max y` / `Fxb.lim` | Return the smaller or larger of two `Fx8` values. |
+| `v integer + a`, `v integer × a`, `v integer / a` / `Fxb.int` | Perform an operation between an `Fx8` value and an integer. |
+| `v << a`, `v >> a` / `Fxb.int` | Shift the internal fixed-point value left or right. |
+| `abs value`, `neg value`, `floor value`, `ceil value` / `Fxb.one` | Apply a single operation to an `Fx8` value. |
+| `cmp x y` / `Fxb.cmp` | Return the difference between two `Fx8` values for comparison. |
+| `0.0`, `0.5`, `1.0`, `2.0` / `Fxb.tmp` | Insert a predefined Fx8 template value. |
 
 ## Template values
 
@@ -67,8 +67,8 @@ The template block provides frequently used constants without requiring a numeri
 The following example stores a sprite's logical position as an `Fx8` value. The position can contain a fractional part, while the visible sprite coordinate is converted to an integer when it is assigned to the sprite.
 
 ```typescript
-let position = FxB.make(10)
-let velocity = FxB.make(0.25)
+let position = Fxb.make(10)
+let velocity = Fxb.make(0.25)
 let player = sprites.create(img`
     . . . . . . . .
     . . 2 2 2 2 . .
@@ -79,8 +79,8 @@ let player = sprites.create(img`
 `, SpriteKind.Player)
 
 game.onUpdate(function () {
-    position = FxB.calc(position, FxB.calcs.add, velocity)
-    player.x = FxB.fmt(position, FxB.fmts.integer)
+    position = Fxb.calc(position, Fxb.calcs.add, velocity)
+    player.x = Fxb.fmt(position, Fxb.fmts.integer)
 })
 ```
 
@@ -98,7 +98,7 @@ on game update
 
 ## Comparing Fx8 values
 
-`FxB.cmp(x, y)` returns the difference between two `Fx8` values rather than a Boolean value. Use the result with a comparison block:
+`Fxb.cmp(x, y)` returns the difference between two `Fx8` values rather than a Boolean value. Use the result with a comparison block:
 
 | Result | Meaning |
 | --- | --- |
@@ -108,16 +108,16 @@ on game update
 
 ## TypeScript API
 
-The public namespace is `FxB`. Its exported enum types are also contained inside the namespace:
+The public namespace is `Fxb`. Its exported enum types are also contained inside the namespace:
 
 | Enum | Values |
 | --- | --- |
-| `FxB.tmps` | `zero`, `oneHalf`, `one`, `two` |
-| `FxB.fmts` | `integer`, `float` |
-| `FxB.calcs` | `add`, `sub`, `mul`, `div` |
-| `FxB.lims` | `min`, `max` |
-| `FxB.ints` | `add`, `mul`, `div`, `lsh`, `rsh` |
-| `FxB.ones` | `abs`, `neg`, `floor`, `ceil` |
+| `Fxb.tmps` | `zero`, `oneHalf`, `one`, `two` |
+| `Fxb.fmts` | `integer`, `float` |
+| `Fxb.calcs` | `add`, `sub`, `mul`, `div` |
+| `Fxb.lims` | `min`, `max` |
+| `Fxb.ints` | `add`, `mul`, `div`, `lsh`, `rsh` |
+| `Fxb.ones` | `abs`, `neg`, `floor`, `ceil` |
 
 The main exported functions are `make`, `fmt`, `calc`, `lim`, `int`, `one`, `cmp`, and `tmp`. The implementation is provided in [`api.ts`](api.ts), while the project targets MakeCode Arcade through [`pxt.json`](pxt.json).
 
