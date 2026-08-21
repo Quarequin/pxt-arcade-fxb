@@ -1,7 +1,8 @@
-//% block="Fx Block" icon="\uf1ec" color="#008888"
+// % block="Fx Block" icon="\uf1ec" color="#008888"
+//% blockNamespace="Math"
 namespace Fxb {
 
-    export const enum tmps {
+    export const enum tmpl {
         //% block="0.0"
         zero = 0x0,
         //% block="0.5"
@@ -12,14 +13,14 @@ namespace Fxb {
         two = 0x3,
     }
 
-    export const enum fmts {
+    export const enum fmt {
         //% block="integer"
         int = 0x0,
         //% block="float"
         float = 0x1,
     }
 
-    export const enum calcs {
+    export const enum alu {
         //% block="+"
         add = 0x0,
         //% block="-"
@@ -30,14 +31,14 @@ namespace Fxb {
         div = 0x3,
     }
 
-    export const enum lims {
+    export const enum lim {
         //% block="min"
         min = 0x0,
         //% block="max"
         max = 0x1,
     }
 
-    export const enum icalcs {
+    export const enum ialu {
         //% block="integer +"
         add = 0x0,
         //% block="integer ×"
@@ -50,7 +51,7 @@ namespace Fxb {
         rsh = 0x5,
     }
 
-    export const enum ones {
+    export const enum ab {
         //% block="abs"
         abs = 0x0,
         //% block="neg"
@@ -64,21 +65,27 @@ namespace Fxb {
     /**
      * Convert a regular number to an Fx8 value.
      */
-    //% blockId=fxb_make block="fx8 $value"
-    //% weight=10
-    export function make(value: number): Fx8 {
-        return Fx8(value);
+    //% blockId=fxb_make block="Fx $value"
+    //% subcategory="Fx Math" weight=10
+    export function make(v: number): Fx8 {
+        switch (v) {
+            default: return Fx8(v);
+            case tmpl.zero: return Fx.zeroFx8;
+            case tmpl.oneHalf: return Fx.oneHalfFx8;
+            case tmpl.one: return Fx.oneFx8;
+            case tmpl.two: return Fx.twoFx8;
+        }
     }
 
     /**
-     * Convert an Fx8 value to an integer or a float.
+     * Convert an Fx8 value to an integer or float.
      */
-    //% blockId=fxb_fmt block="$value=fxb_make to $type"
-    //% weight=9
-    export function fmt(value: Fx8, type: fmts): number {
+    //% blockId=fxb_send block="$fmt $value=fxb_make"
+    //% subcategory="Fx Math" weight=9
+    export function send(type: fmt, v: Fx8): number {
         switch (type) {
-            case fmts.int: default: return Fx.toInt(value);
-            case fmts.float: return Fx.toFloat(value);
+            case fmt.int: default: return Fx.toInt(v);
+            case fmt.float: return Fx.toFloat(v);
         }
     }
 
@@ -86,27 +93,27 @@ namespace Fxb {
      * Calculate with two Fx8 values.
      */
     //% blockId=fxb_calc block="$x=fxb_make $op $y=fxb_make"
-    //% weight=8
-    export function calc(x: Fx8, op: calcs, y: Fx8): Fx8 {
+    //% subcategory="Fx Math" weight=8
+    export function calc(x: Fx8, op: alu, y: Fx8): Fx8 {
         switch (op) {
             default: return null;
-            case calcs.add: return Fx.add(x, y);
-            case calcs.sub: return Fx.sub(x, y);
-            case calcs.mul: return Fx.mul(x, y);
-            case calcs.div: return Fx.div(x, y);
+            case alu.add: return Fx.add(x, y);
+            case alu.sub: return Fx.sub(x, y);
+            case alu.mul: return Fx.mul(x, y);
+            case alu.div: return Fx.div(x, y);
         }
     }
 
     /**
      * Return the minimum or maximum of two Fx8 values.
      */
-    //% blockId=fxb_lim block="$x=fxb_make $op $y=fxb_make"
-    //% weight=7
-    export function lim(x: Fx8, op: lims, y: Fx8): Fx8 {
+    //% blockId=fxb_clip block="$op $x=fxb_make and $y=fxb_make"
+    //% subcategory="Fx Math" weight=7
+    export function clip(op: lim, x: Fx8, y: Fx8): Fx8 {
         switch (op) {
             default: return null;
-            case lims.min: return Fx.min(x, y);
-            case lims.max: return Fx.max(x, y);
+            case lim.min: return Fx.min(x, y);
+            case lim.max: return Fx.max(x, y);
         }
     }
 
@@ -114,38 +121,38 @@ namespace Fxb {
      * Calculate with an Fx8 value and an integer.
      */
     //% blockId=fxb_int block="$v=fxb_make $op $a"
-    //% weight=6
-    export function icalc(v: Fx8, op: icalcs, a: number): Fx8 {
+    //% subcategory="Fx Math" weight=6
+    export function icalc(v: Fx8, op: ialu, a: number): Fx8 {
         switch (op) {
             default: return null;
-            case icalcs.add: return Fx.iadd(a, v);
-            case icalcs.mul: return Fx.imul(v, a);
-            case icalcs.div: return Fx.idiv(v, a);
-            case icalcs.lsh: return Fx.leftShift(v, a);
-            case icalcs.rsh: return Fx.rightShift(v, a);
+            case ialu.add: return Fx.iadd(a, v);
+            case ialu.mul: return Fx.imul(v, a);
+            case ialu.div: return Fx.idiv(v, a);
+            case ialu.lsh: return Fx.leftShift(v, a);
+            case ialu.rsh: return Fx.rightShift(v, a);
         }
     }
 
     /**
      * Apply one operation to an Fx8 value.
      */
-    //% blockId=fxb_one block="$op $v=fxb_make"
-    //% weight=5
-    export function one(op: ones, v: Fx8): Fx8 {
+    //% blockId=fxb_algeb block="$op $v=fxb_make"
+    //% subcategory="Fx Math" weight=5
+    export function algeb(op: ab, v: Fx8): Fx8 {
         switch (op) {
             default: return null;
-            case ones.abs: return Fx.abs(v);
-            case ones.neg: return Fx.neg(v);
-            case ones.floor: return Fx.floor(v);
-            case ones.ceil: return Fx.ceil(v);
+            case ab.abs: return Fx.abs(v);
+            case ab.neg: return Fx.neg(v);
+            case ab.floor: return Fx.floor(v);
+            case ab.ceil: return Fx.ceil(v);
         }
     }
 
     /**
      * Compare two Fx8 values and return their difference.
      */
-    //% blockId=fxb_cmp block="cmp $x=fxb_make $y=fxb_make"
-    //% weight=4
+    //% blockId=fxb_cmp block="compare $x=fxb_make and $y=fxb_make"
+    //% subcategory="Fx Math" weight=4
     export function cmp(x: Fx8, y: Fx8): number {
         return Fx.compare(x, y);
     }
@@ -154,13 +161,13 @@ namespace Fxb {
      * Use Fx8 Template value.
      */
     //% blockId=fxb_tmp block="$p"
-    //% weight=3
-    export function tmp(p: tmps): Fx8 {
+    //% subcategory="Fx Math" weight=3
+    export function item(p: tmpl): Fx8 {
         switch (p) {
-            case tmps.zero: default: return Fx.zeroFx8;
-            case tmps.oneHalf: return Fx.oneHalfFx8;
-            case tmps.one: return Fx.oneFx8;
-            case tmps.two: return Fx.twoFx8;
+            case tmpl.zero: default: return Fx.zeroFx8;
+            case tmpl.oneHalf: return Fx.oneHalfFx8;
+            case tmpl.one: return Fx.oneFx8;
+            case tmpl.two: return Fx.twoFx8;
         }
     }
 }
