@@ -40,16 +40,16 @@ All blocks are provided by the `Fxb` namespace and appear under the **Fx Block**
 
 | Block or function | Description |
 | --- | --- |
-| `fx8 value` / `Fxb.make(value)` | Convert a regular number into an `Fx8` value. |
-| `value to integer` / `Fxb.fmt(value, integer)` | Convert an `Fx8` value to an integer. |
-| `value to float` / `Fxb.fmt(value, float)` | Convert an `Fx8` value to a floating-point number. |
+| `fx8 v` / `Fxb.make(v)` | Convert a regular number into an `Fx8` value. |
+| `integer value` / `Fxb.send(int, v)` | Convert an `Fx8` value to an integer. |
+| `float value` / `Fxb.send(float, v)` | Convert an `Fx8` value to a floating-point number. |
 | `x + y`, `x - y`, `x × y`, `x / y` / `Fxb.calc` | Perform arithmetic with two `Fx8` values. |
-| `x min y`, `x max y` / `Fxb.lim` | Return the smaller or larger of two `Fx8` values. |
-| `v integer + a`, `v integer × a`, `v integer / a` / `Fxb.int` | Perform an operation between an `Fx8` value and an integer. |
-| `v << a`, `v >> a` / `Fxb.int` | Shift the internal fixed-point value left or right. |
-| `abs value`, `neg value`, `floor value`, `ceil value` / `Fxb.one` | Apply a single operation to an `Fx8` value. |
-| `cmp x y` / `Fxb.cmp` | Return the difference between two `Fx8` values for comparison. |
-| `0.0`, `0.5`, `1.0`, `2.0` / `Fxb.tmp` | Insert a predefined Fx8 template value. |
+| `min x and y`, `max x and y` / `Fxb.clip` | Return the smaller or larger of two `Fx8` values. |
+| `v integer + a`, `v integer × a`, `v integer / a` / `Fxb.icalc` | Perform an operation between an `Fx8` value and an integer. |
+| `v << a`, `v >> a` / `Fxb.icalc` | Shift the internal fixed-point value left or right. |
+| `abs value`, `neg value`, `floor value`, `ceil value` / `Fxb.algeb` | Apply a single operation to an `Fx8` value. |
+| `compare x and y` / `Fxb.cmp` | Return the difference between two `Fx8` values for comparison. |
+| `0.0`, `0.5`, `1.0`, `2.0` / `Fxb.pset` | Insert a predefined Fx8 template value. |
 
 ## Template values
 
@@ -79,8 +79,8 @@ let player = sprites.create(img`
 `, SpriteKind.Player)
 
 game.onUpdate(function () {
-    position = Fxb.calc(position, Fxb.calcs.add, velocity)
-    player.x = Fxb.fmt(position, Fxb.fmts.integer)
+    position = Fxb.calc(position, Fxb.alu.add, velocity)
+    player.x = Fxb.send(position, Fxb.fmt.integer)
 })
 ```
 
@@ -93,7 +93,7 @@ on start
 
 on game update
     position = position + velocity
-    set player x to position to integer
+    set player x to integer position
 ```
 
 ## Comparing Fx8 values
@@ -112,14 +112,14 @@ The public namespace is `Fxb`. Its exported enum types are also contained inside
 
 | Enum | Values |
 | --- | --- |
-| `Fxb.tmps` | `zero`, `oneHalf`, `one`, `two` |
-| `Fxb.fmts` | `integer`, `float` |
-| `Fxb.calcs` | `add`, `sub`, `mul`, `div` |
-| `Fxb.lims` | `min`, `max` |
-| `Fxb.ints` | `add`, `mul`, `div`, `lsh`, `rsh` |
-| `Fxb.ones` | `abs`, `neg`, `floor`, `ceil` |
+| `Fxb.tmpl` | `zero`, `oneHalf`, `one`, `two` |
+| `Fxb.fmt` | `integer`, `float` |
+| `Fxb.alu` | `add`, `sub`, `mul`, `div` |
+| `Fxb.lim` | `min`, `max` |
+| `Fxb.ialu` | `add`, `mul`, `div`, `lsh`, `rsh` |
+| `Fxb.ab` | `abs`, `neg`, `floor`, `ceil` |
 
-The main exported functions are `make`, `fmt`, `calc`, `lim`, `int`, `one`, `cmp`, and `tmp`. The implementation is provided in [`api.ts`](api.ts), while the project targets MakeCode Arcade through [`pxt.json`](pxt.json).
+The main exported functions are `make`, `send`, `calc`, `clip`, `icalc`, `algeb`, `cmp`, and `pset`. The implementation is provided in [`api.ts`](api.ts), while the project targets MakeCode Arcade through [`pxt.json`](pxt.json).
 
 ## Project links
 

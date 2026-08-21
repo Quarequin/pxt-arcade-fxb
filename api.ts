@@ -1,5 +1,4 @@
-// % block="Fx Block" icon="\uf1ec" color="#008888"
-//% blockNamespace="Math"
+//% block="Fx Math" blockNamespace="Math" icon="\uf1ec" color="#008888"
 namespace Fxb {
 
     export const enum tmpl {
@@ -65,7 +64,7 @@ namespace Fxb {
     /**
      * Convert a regular number to an Fx8 value.
      */
-    //% blockId=fxb_make block="Fx $value"
+    //% blockId=fxb_make block="fx8 $value"
     //% subcategory="Fx Math" weight=10
     export function make(v: number): Fx8 {
         switch (v) {
@@ -162,7 +161,7 @@ namespace Fxb {
      */
     //% blockId=fxb_tmp block="$p"
     //% subcategory="Fx Math" weight=3
-    export function item(p: tmpl): Fx8 {
+    export function pset(p: tmpl): Fx8 {
         switch (p) {
             case tmpl.zero: default: return Fx.zeroFx8;
             case tmpl.oneHalf: return Fx.oneHalfFx8;
